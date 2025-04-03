@@ -40,10 +40,6 @@ public class LoadCountries {
         } catch (Exception e) {
             throw new RuntimeException("Error processing CSV file: " + e.getMessage(), e);
         }
-        List<Country> countries = countryRepository.findAll();
-        for (Country country : countries) {
-            System.out.println("Country Name: " + country.getCountryName() + ", ISO Code: " + country.getCountryISO2Code());
-        }
     }
 
 //    @Override

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
+
 
 @Entity
 @Table(name = "Transactions")
@@ -21,7 +21,7 @@ public class Transaction {
     private LocalDate transactionDate;
 
     @Column(name = "Status", nullable = false)
-    private String status;
+    private TransactionStatus status;
 
     @ManyToOne
     @JoinColumn(name = "CampaignID", nullable = false)
@@ -30,4 +30,52 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "UserID", nullable = false)
     private User user;
+
+    public enum TransactionStatus {
+        CAMPAIGN_CREATED
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public LocalDate getTransactionDate() {
+        return transactionDate;
+    }
+
+    public TransactionStatus getStatus() {
+        return status;
+    }
+
+    public Campaign getCampaign() {
+        return campaign;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
+    }
+
+    public void setCampaign(Campaign campaign) {
+        this.campaign = campaign;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface KeyWordRepository extends JpaRepository<KeyWord, Integer> {
+    KeyWord findByKeyWord(String keyWord);
 }

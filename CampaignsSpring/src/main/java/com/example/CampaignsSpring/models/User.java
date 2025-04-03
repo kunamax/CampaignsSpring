@@ -15,22 +15,22 @@ public class User {
     @Column(name = "UserID")
     private int id;
 
-    @Column(name = "Name", nullable = false, unique = true)
+    @Column(name = "Name", nullable = false, unique = true, length = 30)
     private String name;
 
-    @Column(name = "Email", nullable = false, unique = true)
+    @Column(name = "Email", nullable = false, unique = true, length = 30)
     private String email;
 
-    @Column(name = "Password", nullable = false)
+    @Column(name = "Password", nullable = false, length = 30)
     private String password;
 
-    @Column(name = "PhoneNumber", nullable = false, unique = true)
+    @Column(name = "PhoneNumber", nullable = false, unique = true, length = 15)
     private String phoneNumber;
 
-    @Column(name = "Balance", nullable = false)
+    @Column(name = "Balance", nullable = false, precision = 10, scale = 2)
     private BigDecimal balance;
 
-    @Column(name = "CreatedAt", nullable = false)
+    @Column(name = "CreatedAt", nullable = false, updatable = false)
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -76,5 +76,49 @@ public class User {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public Set<Campaign> getCampaigns() {
+        return campaigns;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
     }
 }

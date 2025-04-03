@@ -3,8 +3,12 @@ package com.example.CampaignsSpring.models;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Campaigns")
@@ -21,7 +25,7 @@ public class Campaign {
     private boolean status;
 
     @Column(name = "CreatedAt", nullable = false)
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "BidAmount", nullable = false)
     private BigDecimal bidAmount;
@@ -40,8 +44,69 @@ public class Campaign {
     @JoinColumn(name = "UserID", nullable = false)
     private User user;
 
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private Set<KeyWord> keyWords = new HashSet<>();
+
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL)
-    private Set<KeyWord> keyWords;
+    private Set<Transaction> transactions = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "TownID", nullable = true)
+    private Town town;
+
+    public Town getTown() {
+        return town;
+    }
+
+    public void setTown(Town town) {
+        this.town = town;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getCampaignName() {
+        return campaignName;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public BigDecimal getBidAmount() {
+        return bidAmount;
+    }
+
+    public BigDecimal getRemainingBudget() {
+        return remainingBudget;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Set<KeyWord> getKeyWords() {
+        return keyWords;
+    }
+
+    public List<String> getKeyWordsAsString() {
+        return keyWords.stream()
+                .map(KeyWord::getKeyWord)
+                .collect(Collectors.toList());
+    }
 
     public void setCampaignName(String campaignName) {
         this.campaignName = campaignName;
@@ -51,7 +116,7 @@ public class Campaign {
         this.status = status;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -73,5 +138,17 @@ public class Campaign {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setKeyWords(Set<KeyWord> keyWords) {
+        this.keyWords = keyWords;
+    }
+
+    public void addKeyWord(KeyWord keyWord) {
+        this.keyWords.add(keyWord);
+    }
+
+    public void addTransaction(Transaction transaction) {
+        this.transactions.add(transaction);
     }
 }

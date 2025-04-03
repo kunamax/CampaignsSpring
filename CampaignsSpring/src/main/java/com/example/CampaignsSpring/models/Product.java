@@ -25,6 +25,26 @@ public class Product {
     @JoinColumn(name = "UserID", nullable = false)
     private User user;
 
+    public int getId() {
+        return id;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public Set<Campaign> getCampaigns() {
+        return campaigns;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
     public void setProductName(String productName) {
         this.productName = productName;
     }

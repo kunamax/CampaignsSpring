@@ -1,5 +1,6 @@
 package com.example.CampaignsSpring.services;
 
+import com.example.CampaignsSpring.dto.ProductDTO;
 import com.example.CampaignsSpring.models.Product;
 import com.example.CampaignsSpring.repositories.*;
 import org.springframework.stereotype.Service;
@@ -45,9 +46,43 @@ public class ProductService {
         product.setUser(user);
 
         productRepository.save(product);
+        Product savedProduct = productRepository.findById(product.getId())
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        System.out.println("Product created: " + savedProduct.getProductName());
+        System.out.println("Product description: " + savedProduct.getProductDescription());
+        System.out.println("User ID: " + savedProduct.getUser().getId());
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<Product> getUserProducts(int userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return productRepository.findByUser(user);
+    }
+
+    public List<ProductDTO> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        List<ProductDTO> productDTOs = products.stream()
+                .map(product -> new ProductDTO(product.getId(), product.getProductName(), product.getProductDescription(), product.getUser().getName()))
+                .toList();
+        return productDTOs;
+    }
+
+    public void updateProduct(int productId, String productName, String productDescription) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setProductName(productName);
+        product.setProductDescription(productDescription);
+
+        productRepository.save(product);
+    }
+
+    public void deleteProduct(int productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        productRepository.delete(product);
     }
 }
