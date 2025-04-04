@@ -1,15 +1,28 @@
 # CampaignsSpring - Aplikacja do zarządzania kampaniami
 
-![Java](https://img.shields.io/badge/Java-21%2B-blue)
+![Java](https://img.shields.io/badge/Java-17%2B-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green)
 ![React](https://img.shields.io/badge/React-18.x-%2361DAFB)
 ![Database](https://img.shields.io/badge/Database-H2-orange)
 
 ## 📦 Wymagania wstępne
-- Java 21+
+- Java 17+
 - Maven 3.8+ lub Gradle 7.5+
 - Node.js 16+ i npm/yarn (dla frontendu)
 - H2 Database
+
+## Projekt działa na Javie 21, w razie potrzeby zmiany na Java 17
+```bash
+cd CampaignsSpring/CampaignsSpring/
+```
+```java
+// build.gradle
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21) // 17
+	}
+}
+```
 
 ## 🚀 Szybki start
 
