@@ -33,19 +33,13 @@ Backend (Spring Boot)
 cd CampaignsSpring
 ```
 
-# 2. Uruchom z Maven
-```bash
-mvn clean install
-mvn spring-boot:run
-```
-
-# 3. Albo uruchom z Gradle(polecane)
+# 2. Uruchom z Gradle
 ```bash
 ./gradlew build
 ./gradlew bootRun
 ```
 
-# 4. Aplikacja będzie dostępna pod:
+# 3. Aplikacja będzie dostępna pod:
 http://localhost:8080
 
 Swagger UI: http://localhost:8080/swagger-ui/index.html
