@@ -118,7 +118,9 @@ const DropdownUsers = ({ setSelectedUser }) => {
                   <Avatar sx={{ width: 24, height: 24, mr: 2 }}>
                     <PersonIcon fontSize="small" />
                   </Avatar>
-                  <Typography>{user.username}</Typography>
+                  <Typography>
+                    {user.username} ID: {user.id}
+                  </Typography>
                 </Box>
               </MenuItem>
             ))}
