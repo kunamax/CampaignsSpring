@@ -7,6 +7,7 @@ import DeleteCampaign from "./components/DeleteCampaign";
 import DropdownUsers from "./components/DropdownUsers";
 import CreateUser from "./components/CreateUser";
 import CreateProduct from "./components/CreateProduct";
+import ProductList from "./components/ProductList";
 
 function App() {
   const [view, setView] = useState("list");
@@ -22,6 +23,7 @@ function App() {
       {view === "delete" && <DeleteCampaign />}
       {view === "create user" && <CreateUser />}
       {view === "create product" && <CreateProduct />}
+      {view === "productList" && <ProductList />}
     </div>
   );
 }
