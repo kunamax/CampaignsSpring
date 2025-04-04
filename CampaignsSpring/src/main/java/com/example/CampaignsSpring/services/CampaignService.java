@@ -48,6 +48,10 @@ public class CampaignService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFound("User not found"));
 
+        if (remainingBudget.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new NotEnoughFunds("Remaining budget must be greater than zero");
+        }
+
         if (user.getBalance().compareTo(remainingBudget) < 0) {
             throw new NotEnoughFunds("User does not have enough balance");
         }
@@ -80,20 +84,6 @@ public class CampaignService {
         campaign.addTransaction(transaction);
         transaction.setCampaign(campaign);
         Campaign result = campaignRepository.save(campaign);
-        transactionRepository.save(transaction);
-
-        List<Campaign> campaigns = campaignRepository.findAll();
-        for (Campaign c : campaigns) {
-            System.out.println(c.getCampaignName());
-            System.out.println(c.isStatus());
-            System.out.println(c.getCreatedAt());
-            System.out.println(c.getBidAmount());
-            System.out.println(c.getRemainingBudget());
-            System.out.println(c.getRadius());
-            System.out.println(c.getProduct());
-            System.out.println(c.getUser());
-            System.out.println(c.getKeyWords());
-        }
 
         return new CampaignDTO(result.getId(), result.getCampaignName(), result.isStatus(), result.getBidAmount(), result.getRemainingBudget(), result.getRadius(), result.getProduct().getProductName(), result.getUser().getName(), result.getKeyWordsAsString(), result.getCreatedAt(), result.getTown().getTownName());
     }

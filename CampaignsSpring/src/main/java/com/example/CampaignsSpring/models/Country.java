@@ -21,6 +21,10 @@ public class Country {
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     private Set<User> users;
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getCountryISO2Code() {
         return countryISO2Code;
     }

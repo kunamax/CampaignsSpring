@@ -19,6 +19,10 @@ public class KeyWord {
     @ManyToMany(mappedBy = "keyWords")
     private Set<Campaign> campaigns = new HashSet<>();
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

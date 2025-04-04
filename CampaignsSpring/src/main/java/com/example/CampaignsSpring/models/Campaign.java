@@ -59,6 +59,10 @@ public class Campaign {
     @JoinColumn(name = "TownID", nullable = true)
     private Town town;
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Town getTown() {
         return town;
     }

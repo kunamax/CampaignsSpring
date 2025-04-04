@@ -25,6 +25,10 @@ public class Product {
     @JoinColumn(name = "UserID", nullable = false)
     private User user;
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

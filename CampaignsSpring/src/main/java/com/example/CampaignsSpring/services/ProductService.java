@@ -46,12 +46,6 @@ public class ProductService {
         product.setUser(user);
 
         productRepository.save(product);
-        Product savedProduct = productRepository.findById(product.getId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        System.out.println("Product created: " + savedProduct.getProductName());
-        System.out.println("Product description: " + savedProduct.getProductDescription());
-        System.out.println("User ID: " + savedProduct.getUser().getId());
     }
 
     public List<Product> getUserProducts(int userId) {
