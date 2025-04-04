@@ -74,11 +74,25 @@ public class UserService {
         }
     }
 
-    // TODO coś nie śmiga z DTO
     public List<UserDTO> getAllUsers() {
         List<UserDTO> userDTOs = userRepository.findAll().stream()
                 .map(user -> new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getCountry().getCountryISO2Code(), user.getPhoneNumber(), user.getCreatedAt().toString(), user.getBalance().doubleValue()))
                 .toList();
+        for (UserDTO userDTO : userDTOs) {
+            System.out.println("User ID: " + userDTO.getId());
+            System.out.println("Name: " + userDTO.getUsername());
+            System.out.println("Email: " + userDTO.getEmail());
+            System.out.println("Phone Number: " + userDTO.getPhoneNumber());
+            System.out.println("Balance: " + userDTO.getBalance());
+            System.out.println("Created At: " + userDTO.getCreatedAt());
+            System.out.println("Country: " + userDTO.getCountry());
+        }
         return userDTOs;
+    }
+
+    public double getUserBalance(int userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getBalance().doubleValue();
     }
 }

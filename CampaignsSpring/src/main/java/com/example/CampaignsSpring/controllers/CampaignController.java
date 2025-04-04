@@ -30,9 +30,26 @@ public class CampaignController {
     @Operation(summary = "Create a new campaign", description = "Creates a new marketing campaign for a product")
     @ApiResponse(responseCode = "201", description = "Campaign created successfully")
     @Tag(name = "Campaigns", description = "Endpoints for managing campaigns")
-    public ResponseEntity<?> createCampaign(String campaignName, boolean status, BigDecimal bidAmount, BigDecimal remainingBudget, int radius, String town, int productId, int userId/*, List<String> keywords*/) {
-        List<String> keywords = List.of("keyword1", "keyword2", "keyword3"); // Example keywords, replace with actual input
-        try {
+    public ResponseEntity<?> createCampaign(
+            @RequestParam String campaignName,
+            @RequestParam boolean status,
+            @RequestParam BigDecimal bidAmount,
+            @RequestParam BigDecimal remainingBudget,
+            @RequestParam int radius,
+            @RequestParam String town,
+            @RequestParam int productId,
+            @RequestParam int userId,
+            @RequestParam List<String> keywords) {
+        try { // TODO working on keywords
+            System.out.println("CampaignName" + campaignName);
+            System.out.println("Status" + status);
+            System.out.println("BidAmount" + bidAmount);
+            System.out.println("RemainingBudget" + remainingBudget);
+            System.out.println("Radius" + radius);
+            System.out.println("Town" + town);
+            System.out.println("ProductId" + productId);
+            System.out.println("UserId" + userId);
+            System.out.println("Keywords" + keywords);
             if (keywords == null || keywords.isEmpty()) {
                 return ResponseEntity.status(500).body("Keywords cannot be null or empty");
             }
@@ -73,9 +90,18 @@ public class CampaignController {
     @Operation(summary = "Update a campaign", description = "Updates the details of an existing campaign")
     @ApiResponse(responseCode = "200", description = "Campaign updated successfully")
     @Tag(name = "Campaigns", description = "Endpoints for managing campaigns")
-    public ResponseEntity<?> updateCampaign(int campaignId, String campaignName, boolean status, BigDecimal bidAmount, BigDecimal remainingBudget, int radius) {
+    public ResponseEntity<?> updateCampaign(
+            @RequestParam int campaignId,
+            @RequestParam String campaignName,
+            @RequestParam boolean status,
+            @RequestParam BigDecimal bidAmount,
+            @RequestParam BigDecimal remainingBudget,
+            @RequestParam int radius,
+            @RequestParam String town,
+            @RequestParam List<String> keywords) {
         try {
-            Campaign updatedCampaign = campaignService.updateCampaign(campaignId, campaignName, status, bidAmount, remainingBudget, radius);
+            Campaign updatedCampaign = campaignService.updateCampaign(campaignId, campaignName, status, bidAmount, remainingBudget, radius, town, keywords);
+            campaignService.addKeywordsToCampaign(updatedCampaign.getId(), keywords);
             return ResponseEntity.ok("Campaign updated successfully");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error updating campaign: " + e.getMessage());

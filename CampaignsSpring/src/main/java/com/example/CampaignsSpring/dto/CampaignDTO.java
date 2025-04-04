@@ -70,4 +70,8 @@ public class CampaignDTO {
     public List<String> getKeyWords() {
         return keyWords;
     }
+
+    public String getTown() {
+        return town;
+    }
 }

@@ -16,12 +16,7 @@ public class KeyWord {
     @Column(name = "KeyWord", nullable = false)
     private String keyWord;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinTable(
-            name = "CampaignKeyWords",
-            joinColumns = @JoinColumn(name = "KeyWordID"),
-            inverseJoinColumns = @JoinColumn(name = "CampaignID")
-    )
+    @ManyToMany(mappedBy = "keyWords")
     private Set<Campaign> campaigns = new HashSet<>();
 
     public int getId() {

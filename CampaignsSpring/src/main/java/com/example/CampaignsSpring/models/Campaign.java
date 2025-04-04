@@ -44,7 +44,12 @@ public class Campaign {
     @JoinColumn(name = "UserID", nullable = false)
     private User user;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany
+    @JoinTable(
+            name = "CampaignKeyWords",
+            joinColumns = @JoinColumn(name = "CampaignID"),
+            inverseJoinColumns = @JoinColumn(name = "KeyWordID")
+    )
     private Set<KeyWord> keyWords = new HashSet<>();
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL)
@@ -150,5 +155,9 @@ public class Campaign {
 
     public void addTransaction(Transaction transaction) {
         this.transactions.add(transaction);
+    }
+
+    public void clearKeyWords() {
+        this.keyWords.clear();
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 
@@ -42,6 +43,18 @@ public class UserController {
             return ResponseEntity.ok(userService.getAllUsers());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving users: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/user_balance")
+    @Operation(summary = "Get user balance", description = "Retrieves the balance of a specific user")
+    @Tag(name = "User", description = "Endpoints for managing users")
+    public ResponseEntity<?> getUserBalance(
+            @RequestParam int userId) {
+        try {
+            return ResponseEntity.ok(userService.getUserBalance(userId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving user balance: " + e.getMessage());
         }
     }
 }

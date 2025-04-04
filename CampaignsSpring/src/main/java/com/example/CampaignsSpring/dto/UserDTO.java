@@ -24,4 +24,28 @@ public class UserDTO {
     public int getId() {
         return id;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
 }

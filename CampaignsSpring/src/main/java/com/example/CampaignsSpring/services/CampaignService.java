@@ -48,11 +48,11 @@ public class CampaignService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFound("User not found"));
 
-        if (user.getBalance().compareTo(bidAmount) < 0) {
+        if (user.getBalance().compareTo(remainingBudget) < 0) {
             throw new NotEnoughFunds("User does not have enough balance");
         }
 
-        user.setBalance(user.getBalance().subtract(bidAmount));
+        user.setBalance(user.getBalance().subtract(remainingBudget));
         Campaign campaign = new Campaign();
         campaign.setCampaignName(campaignName);
         campaign.setStatus(status);
@@ -97,7 +97,7 @@ public class CampaignService {
 
         return new CampaignDTO(result.getId(), result.getCampaignName(), result.isStatus(), result.getBidAmount(), result.getRemainingBudget(), result.getRadius(), result.getProduct().getProductName(), result.getUser().getName(), result.getKeyWordsAsString(), result.getCreatedAt(), result.getTown().getTownName());
     }
-    // TODO town now showing up in the campaignDTO
+
     public List<CampaignDTO> getUserCampaigns(int userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFound("User not found"));
@@ -107,23 +107,43 @@ public class CampaignService {
         return campaignDTOs;
     }
 
+    @Transactional
     public void deleteCampaign(int campaignId) {
         Campaign campaign = campaignRepository.findById(campaignId)
                 .orElseThrow(() -> new NotFound("Campaign not found"));
-//        campaignRepository.deleteByCampaignId(campaignId);
-
+        campaign.clearKeyWords();
+        campaignRepository.save(campaign);
         campaignRepository.delete(campaign);
     }
 
-    public Campaign updateCampaign(int campaignId, String campaignName, boolean status, BigDecimal bidAmount, BigDecimal remainingBudget, int radius) {
+    @Transactional
+    public Campaign updateCampaign(int campaignId, String campaignName, boolean status, BigDecimal bidAmount, BigDecimal remainingBudget, int radius, String town, List<String> keywords) {
         Campaign campaign = campaignRepository.findById(campaignId)
                 .orElseThrow(() -> new NotFound("Campaign not found"));
+
+        User user = userRepository.findById(campaign.getUser().getId())
+                .orElseThrow(() -> new NotFound("User not found"));
+
+        double balanceDiff = campaign.getRemainingBudget().doubleValue() - remainingBudget.doubleValue();
+        if (user.getBalance().doubleValue() + balanceDiff < 0) {
+            throw new NotEnoughFunds("User does not have enough balance");
+        }
+        user.setBalance(user.getBalance().add(BigDecimal.valueOf(balanceDiff)));
 
         campaign.setCampaignName(campaignName);
         campaign.setStatus(status);
         campaign.setBidAmount(bidAmount);
         campaign.setRemainingBudget(remainingBudget);
         campaign.setRadius(radius);
+        Town townEntity = townRepository.findByTownName(town);
+        if (townEntity == null) {
+            townEntity = new Town();
+            townEntity.setTownName(town);
+            townEntity.addCampaign(campaign);
+            townRepository.save(townEntity);
+        }
+        campaign.setTown(townEntity);
+        campaign.clearKeyWords();
 
         return campaignRepository.save(campaign);
     }
